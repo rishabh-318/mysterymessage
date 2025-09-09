@@ -14,7 +14,7 @@ interface VerificationEmailProps {
   username: string;
   otp: string;
 }
-export default function VerificaitonEmail({
+export default function VerificationEmail({
   username,
   otp,
 }: VerificationEmailProps) {
@@ -40,7 +40,7 @@ export default function VerificaitonEmail({
         </Row>
         <Row>
           <Text>
-            Thank you for registering. Please use the following verificaiton
+            Thank you for registering. Please use the following verification
             code to complete your registeration:
           </Text>
         </Row>

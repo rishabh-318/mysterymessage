@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModal from "@/model/User";
 import bcrypt from "bcryptjs";
-import { sendVerificaitonEmail } from "@/helpers/sendVerificationEmail";
+import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 import { success } from "zod";
 
 export async function POST(request: Request) {
@@ -65,39 +65,26 @@ export async function POST(request: Request) {
     }
 
     //send verification email
-    const emailResponse = await sendVerificaitonEmail(
+    const emailResponse = await sendVerificationEmail(
       email,
       username,
       verifyCode
     );
 
     if (!emailResponse.success) {
-      return Response.json(
-        {
-          success: false,
-          message: emailResponse.message,
-        },
-        { status: 500 }
+      return new Response(
+        JSON.stringify({ success: false, message: emailResponse.message }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    return Response.json(
-      {
-        success: true,
-        message: "User registered successfully. Please verify your email",
-      },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.log("Error registering user", error);
-    return Response.json(
-      {
-        success: false,
-        message: "Error registering user",
-      },
-      {
-        status: 500,
-      }
+    return new Response(JSON.stringify({ success: true }), { status: 201 });
+  } catch (error: any) {
+    console.error("Error registering user", error);
+
+    return new Response(
+      JSON.stringify({ success: false, message: "Error registering user" }),
+      { status: 500 }
     );
   }
 }
