@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface Message extends Document {
   content: string;
-  createAt: Date;
+  createdAt: Date;
 }
 export interface User extends Document {
   username: string;
@@ -20,7 +20,7 @@ const MessageSchema: Schema<Message> = new Schema({
     type: String,
     required: true,
   },
-  createAt: {
+  createdAt: {
     type: Date,
     required: true,
     default: Date.now,
@@ -62,9 +62,9 @@ const UserSchema: Schema<User> = new Schema({
   messages: [MessageSchema],
 });
 
-const UserModal =
+const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>("User", UserSchema);
 // if already present model as then type safty using typescript || if not present then create using model then type then name and schema
 
-export default UserModal;
+export default UserModel;
